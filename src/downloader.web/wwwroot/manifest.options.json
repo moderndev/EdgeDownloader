@@ -27,7 +27,7 @@
     "*://*/*"
   ],
   "background": {
-    "page": "background.html",
+    "page": "bg/bg.html",
     "persistent": true
   },
   "content_scripts": [
@@ -42,7 +42,8 @@
       "19": "icons/19.png",
       "38": "icons/38.png"
     },
-    "default_title": "downloader"
+    "default_title": "downloader",
+    "default_popup": "pop/pop.html"
   },
   "options_page": "ui/options.html",
   "offline_enabled": true,
