@@ -6,7 +6,7 @@
 var dashboardTabId = -1; // no id by default
 browser.browserAction.onClicked.addListener(function (activeTab) {
     if (dashboardTabId === -1) {
-        browser.tabs.create({ url: 'ui/dashboard.html' }, function (tab) {
+        browser.tabs.create({ url: '/extension/ui/dashboard.html' }, function (tab) {
         //browser.tabs.create({ url: 'https://login.aconex.com' }, function (tab) {
             dashboardTabId = tab.id;
         });
@@ -16,7 +16,7 @@ browser.browserAction.onClicked.addListener(function (activeTab) {
     }
 });
 browser.tabs.onRemoved.addListener(function (removetabid, removeInfo) {
-    if (dashboardTabId != -1 && removetabid === dashboardTabId) {
+    if (dashboardTabId !== -1 && removetabid === dashboardTabId) {
         dashboardTabId = -1;
     }
 });

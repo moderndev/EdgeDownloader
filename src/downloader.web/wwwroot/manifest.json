@@ -4,9 +4,9 @@
   "name": "Downloader",
   "version": "1.0",
   "icons": {
-    "128": "icons/128.png",
-    "16": "icons/16.png",
-    "48": "icons/48.png"
+    "128": "extension/icons/128.png",
+    "16": "extension/icons/16.png",
+    "48": "extension/icons/48.png"
   },
   "permissions": [
     "alarms",
@@ -27,7 +27,7 @@
     "*://*/*"
   ],
   "background": {
-    "page": "background.html",
+    "page": "extension/background.html",
     "persistent": true
   },
   "content_scripts": [
@@ -36,15 +36,15 @@
       "matches": [ "*://*/*", "http://*/*", "https://*/*", "ftp://*/*" ]
     }
   ],
-
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'; ",
   "browser_action": {
     "default_icon": {
-      "19": "icons/19.png",
-      "38": "icons/38.png"
+      "19": "extension/icons/19.png",
+      "38": "extension/icons/38.png"
     },
     "default_title": "downloader"
   },
-  "options_page": "ui/options.html",
+  "options_page": "extension/ui/options.html",
   "offline_enabled": true,
   "web_accessible_resources": [
     "beasts/frog.jpg",
