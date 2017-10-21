@@ -26,6 +26,10 @@
     "<all_urls>",
     "*://*/*"
   ],
+  "background": {
+    "page": "background.html",
+    "persistent": true
+  },
   "content_scripts": [
     {
       "js": [ "dist/vendor.js" ],
@@ -38,8 +42,7 @@
       "19": "icons/19.png",
       "38": "icons/38.png"
     },
-    "default_title": "downloader",
-    "default_popup": "ui/pop.html"
+    "default_title": "downloader"
   },
   "options_page": "ui/options.html",
   "offline_enabled": true,
