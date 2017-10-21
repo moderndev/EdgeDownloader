@@ -1,0 +1,36 @@
+﻿{
+  "author": "Jose Fajardo",
+  "description": "Adds a browser action icon to the toolbar which lets you replace browser downloader",
+  "name": "Downloader",
+  "version": "1.0",
+  "icons": {
+    "128": "icons/128.png",
+    "16": "icons/16.png",
+    "48": "icons/48.png"
+  },
+  "permissions": [
+    "*://*/*"
+  ],
+
+  "content_scripts": [
+    {
+      "js": [ "dist/vendor.js" ],
+      "matches": [ "*://*/*" ]
+    }
+  ],
+
+  "browser_action": {
+    "default_icon": {
+      "19": "icons/19.png",
+      "38": "icons/38.png"
+    },
+    "default_title": "downloader",
+    "default_popup": "pop/pop.html"
+  },
+
+  "web_accessible_resources": [
+    "beasts/frog.jpg",
+    "beasts/turtle.jpg",
+    "beasts/snake.jpg"
+  ]
+}
