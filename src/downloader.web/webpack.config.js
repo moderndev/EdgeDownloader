@@ -27,10 +27,9 @@ module.exports = (env) => {
     };
 
     // Configuration for client-side bundle suitable for running in browsers
-    const clientBundleOutputDirDashboard = './wwwroot/appDashboardDist';
     const clientBundleConfigDashboard = merge(sharedConfigDashboard, {
         entry: { 'main-client': './appDashboard/boot.browser.ts' },
-        output: { path: path.join(__dirname, clientBundleOutputDirDashboard) },
+        output: { path: path.join(__dirname, './wwwroot/appDashboardDist') },
         plugins: [
             new webpack.DllReferencePlugin({
                 context: __dirname,
@@ -40,7 +39,7 @@ module.exports = (env) => {
             // Plugins that apply in development builds only
             new webpack.SourceMapDevToolPlugin({
                 filename: '[file].map', // Remove this line if you prefer inline source maps
-                moduleFilenameTemplate: path.relative(clientBundleOutputDirDashboard, '[resourcePath]') // Point sourcemap entries to the original file locations on disk
+                moduleFilenameTemplate: path.relative('./wwwroot/appDashboardDist', '[resourcePath]') // Point sourcemap entries to the original file locations on disk
             })
         ] : [
             // Plugins that apply in production builds only
@@ -80,5 +79,41 @@ module.exports = (env) => {
         devtool: 'inline-source-map'
     });
 
-    return [clientBundleConfigDashboard, serverBundleConfigDashboard];
+    // Configuration for client-side bundle suitable for running in browsers
+    const clientBundleConfigOptions = {
+        stats: { modules: false },
+        entry: { 'main': './appOptions/boot.tsx' },
+        resolve: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
+        output: {
+            path: path.join(__dirname, './wwwroot/appOptionsDist'),
+            filename: '[name].js',
+            publicPath: 'dist/'
+        },
+        module: {
+            rules: [
+                { test: /\.tsx?$/, include: /appOptions/, use: 'awesome-typescript-loader?silent=true' },
+                { test: /\.css$/, use: isDevBuild ? ['style-loader', 'css-loader'] : ExtractTextPlugin.extract({ use: 'css-loader?minimize' }) },
+                { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' }
+            ]
+        },
+        plugins: [
+            new CheckerPlugin(),
+            new webpack.DllReferencePlugin({
+                context: __dirname,
+                manifest: require('./wwwroot/appOptionsDist/vendor-manifest.json')
+            })
+        ].concat(isDevBuild ? [
+            // Plugins that apply in development builds only
+            new webpack.SourceMapDevToolPlugin({
+                filename: '[file].map', // Remove this line if you prefer inline source maps
+                moduleFilenameTemplate: path.relative('./wwwroot/appOptionsDist', '[resourcePath]') // Point sourcemap entries to the original file locations on disk
+            })
+        ] : [
+                // Plugins that apply in production builds only
+                new webpack.optimize.UglifyJsPlugin(),
+                new ExtractTextPlugin('site.css')
+            ])
+    };
+
+    return [clientBundleConfigDashboard, serverBundleConfigDashboard, clientBundleConfigOptions];
 };
