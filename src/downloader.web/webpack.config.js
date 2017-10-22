@@ -7,7 +7,7 @@ const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 module.exports = (env) => {
     // Configuration in common to both client-side and server-side bundles
     const isDevBuild = !(env && env.prod);
-    const sharedConfig = {
+    const sharedConfigDashboard = {
         stats: { modules: false },
         context: __dirname,
         resolve: { extensions: [ '.js', '.ts' ] },
@@ -27,10 +27,10 @@ module.exports = (env) => {
     };
 
     // Configuration for client-side bundle suitable for running in browsers
-    const clientBundleOutputDir = './wwwroot/appDashboardDist';
-    const clientBundleConfig = merge(sharedConfig, {
+    const clientBundleOutputDirDashboard = './wwwroot/appDashboardDist';
+    const clientBundleConfigDashboard = merge(sharedConfigDashboard, {
         entry: { 'main-client': './appDashboard/boot.browser.ts' },
-        output: { path: path.join(__dirname, clientBundleOutputDir) },
+        output: { path: path.join(__dirname, clientBundleOutputDirDashboard) },
         plugins: [
             new webpack.DllReferencePlugin({
                 context: __dirname,
@@ -40,7 +40,7 @@ module.exports = (env) => {
             // Plugins that apply in development builds only
             new webpack.SourceMapDevToolPlugin({
                 filename: '[file].map', // Remove this line if you prefer inline source maps
-                moduleFilenameTemplate: path.relative(clientBundleOutputDir, '[resourcePath]') // Point sourcemap entries to the original file locations on disk
+                moduleFilenameTemplate: path.relative(clientBundleOutputDirDashboard, '[resourcePath]') // Point sourcemap entries to the original file locations on disk
             })
         ] : [
             // Plugins that apply in production builds only
@@ -54,7 +54,7 @@ module.exports = (env) => {
     });
 
     // Configuration for server-side (prerendering) bundle suitable for running in Node
-    const serverBundleConfig = merge(sharedConfig, {
+    const serverBundleConfigDashboard = merge(sharedConfigDashboard, {
         resolve: { mainFields: ['main'] },
         entry: { 'main-server': './appDashboard/boot.server.ts' },
         plugins: [
@@ -80,5 +80,5 @@ module.exports = (env) => {
         devtool: 'inline-source-map'
     });
 
-    return [clientBundleConfig, serverBundleConfig];
+    return [clientBundleConfigDashboard, serverBundleConfigDashboard];
 };
